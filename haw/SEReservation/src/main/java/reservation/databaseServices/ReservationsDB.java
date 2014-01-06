@@ -4,8 +4,7 @@ import reservation.reservationComponent.Reservation;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Florian Bauer on 05.01.14.
@@ -84,6 +83,11 @@ public class ReservationsDB implements IReservationsDB {
                 dataBase.execute(sql);
                 dataBase.close();
 
+                sql = "SELECT * FROM #TABLE# WHERE ID = #V1#";
+                sql = sql.replace("#TABLE#", ADDITIONAL_SERVICES_TABLE);
+                sql = sql.replace("#V1", String.valueOf(reservation.getNumber()));
+
+                saveAdditionalServices(reservation, dataBase.executeQuery(sql));
                 //TODO update additional services
 
             } else {
@@ -98,6 +102,7 @@ public class ReservationsDB implements IReservationsDB {
                 dataBase.execute(sql);
                 dataBase.close();
 
+                saveAdditionalServices(reservation);
                 //TODO save additional services
             }
 
@@ -108,19 +113,69 @@ public class ReservationsDB implements IReservationsDB {
         }
     }
 
-    private void saveAdditionalServices(Reservation reservation) {
+
+    private void saveAdditionalServices(Reservation reservation, ResultSet rs) {
+
+        Map<Integer, Set<Integer>> reservationToService = new HashMap<>();
+
         try {
-            dataBase.connect();
-            for(int serviceID: reservation.getAdditionalServices()){
-                String sql = "INSERT INTO #TABLE# (Id,Reservation,Service) Values(#V1#,#V2#,#V3#)";
-                sql.replace("#TABLE",ADDITIONAL_SERVICES_TABLE);
-                sql.replace("#V1#",String.valueOf(1));
-                sql.replace("#V2#",String.valueOf(reservation.getNumber()));
-                sql.replace("#V3#",String.valueOf(serviceID));
+            //hole die ganze abbildung resID -> alleServices
+            while (rs.next()) {
+                int resID = rs.getInt("Reservation");
+                int serviceID = rs.getInt("Service");
+                Set<Integer> newSet = new HashSet<>(reservationToService.get(resID));
+                newSet.add(serviceID);
+                reservationToService.put(resID, newSet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+
+            //geh über alle serviceIDs in der Reservierung
+
+            for (int serviceID : reservation.getAdditionalServices()) {
+                int resID = reservation.getNumber();
+                //wenn es eine serviceID gibt die zu dieser reservierung nicht
+                //eingetragen ist dann create diesen eintrag in der DB
+                if (!(reservationToService.get(resID).contains(serviceID))) {
+                    dataBase.connect();
+
+                    String sql = "INSERT INTO #TABLE# (Id,Reservation,Service) Values(#V1#,#V2#,#V3#)";
+                    sql.replace("#TABLE", ADDITIONAL_SERVICES_TABLE);
+                    sql.replace("#V1#", String.valueOf(dataBase.getUniqueID(ADDITIONAL_SERVICES_TABLE)));
+                    sql.replace("#V2#", String.valueOf(resID));
+                    sql.replace("#V3#", String.valueOf(serviceID));
+
+                    dataBase.execute(sql);
+                    dataBase.close();
+                }
+
             }
 
-        } catch  (SQLException ex) {
-            ex.printStackTrace();
+        } finally {
+
+            dataBase.close();
+        }
+
+
+    }
+
+    private void saveAdditionalServices(Reservation reservation) {
+        try {
+            for (int serviceID : reservation.getAdditionalServices()) {
+                dataBase.connect();
+                String sql = "INSERT INTO #TABLE# (Id,Reservation,Service) Values(#V1#,#V2#,#V3#)";
+                sql.replace("#TABLE", ADDITIONAL_SERVICES_TABLE);
+                sql.replace("#V1#", String.valueOf(dataBase.getUniqueID(ADDITIONAL_SERVICES_TABLE)));
+                sql.replace("#V2#", String.valueOf(reservation.getNumber()));
+                sql.replace("#V3#", String.valueOf(serviceID));
+
+                dataBase.execute(sql);
+                dataBase.close();
+            }
+
         } finally {
 
             dataBase.close();
