@@ -70,7 +70,7 @@ public class DataBase {
             stmt.executeQuery("select 1 from " + tableName);
         } catch (SQLException ex) {
             if (ex.getMessage().contains("no such table: " + tableName)) {
-                return false;
+                result = false;
             } else {
                 ex.printStackTrace();
             }
