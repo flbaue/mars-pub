@@ -129,6 +129,23 @@ public class ReservationsDB implements IReservationsDB {
         }
     }
 
+    private void saveAdditionalServices(Reservation reservation) {
+        try {
+            dataBase.connect();
+            for(int serviceID: reservation.getAdditionalServices()){
+                String sql = "INSERT INTO #TABLE# (Id,Reservation,Service) Values(#V1#,#V2#,#V3#)";
+                sql.replace("#TABLE",ADDITIONAL_SERVICES_TABLE);
+                sql.replace("#V1",)
+            }
+
+        } catch  (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+
+            dataBase.close();
+        }
+    }
+
     @Override
     public synchronized Reservation getReservationByNumber(int number) {
         String sql = "SELECT * FROM #TABLE# WHERE Id = #V1#;";

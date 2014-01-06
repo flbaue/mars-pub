@@ -17,6 +17,7 @@ public class AdditionalServicesDBTest {
     private static IDBServicesFactory servicesFactory;
     private static IAdditionalServicesDB additionalServicesDB;
 
+
     @BeforeClass
     public static void setUp() throws Exception {
         servicesFactory = new DBServicesFactory(DBServicesFactory.DATABASE_ENVIRONMENT, "org.sqlite.JDBC", "jdbc:sqlite:AdditionalServicesDBTest.db");
