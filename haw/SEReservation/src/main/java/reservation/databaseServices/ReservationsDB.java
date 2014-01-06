@@ -143,10 +143,10 @@ public class ReservationsDB implements IReservationsDB {
                     dataBase.connect();
 
                     String sql = "INSERT INTO #TABLE# (Id,Reservation,Service) Values(#V1#,#V2#,#V3#)";
-                    sql.replace("#TABLE", ADDITIONAL_SERVICES_TABLE);
-                    sql.replace("#V1#", String.valueOf(dataBase.getUniqueID(ADDITIONAL_SERVICES_TABLE)));
-                    sql.replace("#V2#", String.valueOf(resID));
-                    sql.replace("#V3#", String.valueOf(serviceID));
+                    sql = sql.replace("#TABLE", ADDITIONAL_SERVICES_TABLE);
+                    sql = sql.replace("#V1#", String.valueOf(dataBase.getUniqueID(ADDITIONAL_SERVICES_TABLE)));
+                    sql = sql.replace("#V2#", String.valueOf(resID));
+                    sql = sql.replace("#V3#", String.valueOf(serviceID));
 
                     dataBase.execute(sql);
                     dataBase.close();
@@ -167,10 +167,10 @@ public class ReservationsDB implements IReservationsDB {
             for (int serviceID : reservation.getAdditionalServices()) {
                 dataBase.connect();
                 String sql = "INSERT INTO #TABLE# (Id,Reservation,Service) Values(#V1#,#V2#,#V3#)";
-                sql.replace("#TABLE", ADDITIONAL_SERVICES_TABLE);
-                sql.replace("#V1#", String.valueOf(dataBase.getUniqueID(ADDITIONAL_SERVICES_TABLE)));
-                sql.replace("#V2#", String.valueOf(reservation.getNumber()));
-                sql.replace("#V3#", String.valueOf(serviceID));
+                sql = sql.replace("#TABLE", ADDITIONAL_SERVICES_TABLE);
+                sql = sql.replace("#V1#", String.valueOf(dataBase.getUniqueID(ADDITIONAL_SERVICES_TABLE)));
+                sql = sql.replace("#V2#", String.valueOf(reservation.getNumber()));
+                sql = sql.replace("#V3#", String.valueOf(serviceID));
 
                 dataBase.execute(sql);
                 dataBase.close();
