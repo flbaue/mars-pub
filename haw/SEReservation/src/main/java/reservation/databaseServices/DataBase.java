@@ -30,12 +30,37 @@ public class DataBase {
 
     public void close() {
         try {
-            if(connection != null)
+            if (connection != null)
                 connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         connection = null;
+    }
+
+    public int getUniqueID(String table) {
+        String sql = "SELECT Id FROM #TABLE# ORDER BY Id desc";
+        sql = sql.replace("#TABLE#", table);
+
+
+        int lastId = 0;
+
+        try {
+            connect();
+
+            ResultSet rs = executeQuery(sql);
+
+            if (rs.next()) {
+                lastId = rs.getInt("Id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+
+        lastId += 1;
+        return lastId;
     }
 
     public boolean tableExists(String tableName) {

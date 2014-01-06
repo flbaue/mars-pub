@@ -56,28 +56,7 @@ public class ReservationsDB implements IReservationsDB {
 
     @Override
     public synchronized int getUniqueNumber() {
-        String sql = "SELECT Id FROM #TABLE# ORDER BY Id desc";
-        sql = sql.replace("#TABLE#", RESERVATIONS_TABLE);
-
-
-        int lastId = 0;
-
-        try {
-            dataBase.connect();
-
-            ResultSet rs = dataBase.executeQuery(sql);
-
-            if (rs.next()) {
-                lastId = rs.getInt("Id");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            dataBase.close();
-        }
-
-        lastId += 1;
-        return lastId;
+        return dataBase.getUniqueID(RESERVATIONS_TABLE);
     }
 
     @Override
