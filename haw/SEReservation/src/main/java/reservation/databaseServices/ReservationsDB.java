@@ -114,7 +114,9 @@ public class ReservationsDB implements IReservationsDB {
             for(int serviceID: reservation.getAdditionalServices()){
                 String sql = "INSERT INTO #TABLE# (Id,Reservation,Service) Values(#V1#,#V2#,#V3#)";
                 sql.replace("#TABLE",ADDITIONAL_SERVICES_TABLE);
-                sql.replace("#V1",)
+                sql.replace("#V1#",String.valueOf(1));
+                sql.replace("#V2#",String.valueOf(reservation.getNumber()));
+                sql.replace("#V3#",String.valueOf(serviceID));
             }
 
         } catch  (SQLException ex) {
