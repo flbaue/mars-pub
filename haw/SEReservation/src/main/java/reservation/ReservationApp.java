@@ -35,7 +35,6 @@ public class ReservationApp {
         reservation = reservationServices.createReservation(guest.getNumber(), 101);
         reservationServices.bookAdditionalService(reservation.getNumber(), service.getNumber());
 
-        System.out.println("Gast Nr: " + guest.getNumber() + " ist Stammgast: " + guest.isRegularGuest());
-
+        System.out.println("Gast Nr: " + guest.getNumber() + " ist Stammgast: " + guestServices.getGuestByNumber(guest.getNumber()).isRegularGuest());
     }
 }

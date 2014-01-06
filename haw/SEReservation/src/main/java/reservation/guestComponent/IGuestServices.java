@@ -11,4 +11,6 @@ public interface IGuestServices {
     Guest createGuest(String name, String eMail);
 
     List<Guest> searchForGuest(String name);
+
+    Guest getGuestByNumber(int number);
 }

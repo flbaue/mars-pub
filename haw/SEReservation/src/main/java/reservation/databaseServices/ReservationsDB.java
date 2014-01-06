@@ -4,7 +4,10 @@ import reservation.reservationComponent.Reservation;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Florian Bauer on 05.01.14.
@@ -13,7 +16,7 @@ import java.util.*;
 public class ReservationsDB implements IReservationsDB {
 
     private static final String RESERVATIONS_TABLE = "Reservations";
-    private static final String ADDITIONAL_SERVICES_TABLE = "Reservations";
+    private static final String ADDITIONAL_SERVICES_TABLE = "ReservationServices";
     private DataBase dataBase;
 
     public ReservationsDB(DataBase dataBase) {
@@ -83,11 +86,8 @@ public class ReservationsDB implements IReservationsDB {
                 dataBase.execute(sql);
                 dataBase.close();
 
-                sql = "SELECT * FROM #TABLE# WHERE ID = #V1#";
-                sql = sql.replace("#TABLE#", ADDITIONAL_SERVICES_TABLE);
-                sql = sql.replace("#V1", String.valueOf(reservation.getNumber()));
 
-                saveAdditionalServices(reservation, dataBase.executeQuery(sql));
+                updateAdditionalServices(reservation);
                 //TODO update additional services
 
             } else {
@@ -114,48 +114,52 @@ public class ReservationsDB implements IReservationsDB {
     }
 
 
-    private void saveAdditionalServices(Reservation reservation, ResultSet rs) {
+    private void updateAdditionalServices(Reservation reservation) {
 
-        Map<Integer, Set<Integer>> reservationToService = new HashMap<>();
+        String sql = "SELECT * FROM #TABLE# WHERE ID = #V1#";
+        sql = sql.replace("#TABLE#", ADDITIONAL_SERVICES_TABLE);
+        sql = sql.replace("#V1#", String.valueOf(reservation.getNumber()));
+
+        Set<Integer> reservationToServiceDB = new HashSet<>();
 
         try {
+
+            dataBase.connect();
+            ResultSet rs = dataBase.executeQuery(sql);
+
             //hole die ganze abbildung resID -> alleServices
             while (rs.next()) {
-                int resID = rs.getInt("Reservation");
                 int serviceID = rs.getInt("Service");
-                Set<Integer> newSet = new HashSet<>(reservationToService.get(resID));
-                newSet.add(serviceID);
-                reservationToService.put(resID, newSet);
+                reservationToServiceDB.add(serviceID);
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            dataBase.close();
         }
 
         try {
-
             //geh über alle serviceIDs in der Reservierung
 
             for (int serviceID : reservation.getAdditionalServices()) {
                 int resID = reservation.getNumber();
                 //wenn es eine serviceID gibt die zu dieser reservierung nicht
                 //eingetragen ist dann create diesen eintrag in der DB
-                if (!(reservationToService.get(resID).contains(serviceID))) {
-                    dataBase.connect();
+                if (!(reservationToServiceDB.contains(serviceID))) {
+                    int uniqueID = dataBase.getUniqueID(ADDITIONAL_SERVICES_TABLE);
 
-                    String sql = "INSERT INTO #TABLE# (Id,Reservation,Service) Values(#V1#,#V2#,#V3#)";
-                    sql = sql.replace("#TABLE", ADDITIONAL_SERVICES_TABLE);
-                    sql = sql.replace("#V1#", String.valueOf(dataBase.getUniqueID(ADDITIONAL_SERVICES_TABLE)));
+                    dataBase.connect();
+                    sql = "INSERT INTO #TABLE# (Id,Reservation,Service) Values(#V1#,#V2#,#V3#)";
+                    sql = sql.replace("#TABLE#", ADDITIONAL_SERVICES_TABLE);
+                    sql = sql.replace("#V1#", String.valueOf(uniqueID));
                     sql = sql.replace("#V2#", String.valueOf(resID));
                     sql = sql.replace("#V3#", String.valueOf(serviceID));
-
                     dataBase.execute(sql);
                     dataBase.close();
                 }
 
             }
-
         } finally {
-
             dataBase.close();
         }
 

@@ -26,4 +26,9 @@ public class GuestServices implements IGuestServices {
     public List<Guest> searchForGuest(String name) {
         return guestDB.getGuestsByName(name);
     }
+
+    @Override
+    public Guest getGuestByNumber(int number) {
+        return guestDB.getGuestByNumber(number);
+    }
 }
