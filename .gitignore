@@ -2,4 +2,4 @@
 *.db
 .idea
 *.iml
-*/target/*
+target

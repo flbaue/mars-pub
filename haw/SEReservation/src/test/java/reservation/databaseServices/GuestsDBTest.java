@@ -57,7 +57,7 @@ public class GuestsDBTest {
 
     @Test
     public void testSaveGuest() throws Exception {
-        Guest guest = new Guest(guestsDB.getUniqueNumber(), "Bob Bobbsen", new EMailType("a@b.c"));
+        Guest guest = new Guest(guestsDB.getUniqueNumber(), "Bob Bobbsen", new EMailType("aa@bb.cc"));
         guestsDB.saveGuest(guest);
     }
 }
