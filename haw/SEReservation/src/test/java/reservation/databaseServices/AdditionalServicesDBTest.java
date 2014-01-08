@@ -35,7 +35,9 @@ public class AdditionalServicesDBTest {
 
     @Test
     public void testSaveAdditionalService() throws Exception {
-
+        AdditionalService service = new AdditionalService(additionalServicesDB.getUniqueNumber(),"Schläge");
+        additionalServicesDB.saveAdditionalService(service);
+        additionalServicesDB.getAdditionalServicesByText("Schläge");
     }
 
     @Test

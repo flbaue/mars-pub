@@ -25,7 +25,7 @@ public class GuestsDB implements IGuestsDB {
 
             if (!this.dataBase.tableExists(GUEST_TABLE)) {
 
-                String sql = "CREATE TABLE #TABLE# (Id INT PRIMARY KEY, Name TEXT, Email TEXT, Regular TEXT)";
+                String sql = "CREATE TABLE #TABLE# (Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Name TEXT, Email TEXT, Regular TEXT)";
                 sql = sql.replace("#TABLE#", GUEST_TABLE);
 
                 this.dataBase.execute(sql);
@@ -179,6 +179,7 @@ public class GuestsDB implements IGuestsDB {
             } else {
                 // Insert
                 sql = "INSERT INTO #TABLE# (Id, Name, Email, Regular) VALUES (#V1#, '#V2#', '#V3#', '#V4#')";
+
                 sql = sql.replace("#TABLE#", GUEST_TABLE);
                 sql = sql.replace("#V1#", String.valueOf(guest.getNumber()));
                 sql = sql.replace("#V2#", guest.getName());

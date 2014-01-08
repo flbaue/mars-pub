@@ -25,7 +25,7 @@ public class AdditionalServicesDB implements IAdditionalServicesDB {
 
             if (!this.dataBase.tableExists(ADDITIONAL_SERVICES_TABLE)) {
 
-                String sql = "CREATE TABLE #TABLE# (Id INT PRIMARY KEY, Service TEXT)";
+                String sql = "CREATE TABLE #TABLE# (Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Service TEXT)";
                 sql = sql.replace("#TABLE#", ADDITIONAL_SERVICES_TABLE);
 
                 this.dataBase.execute(sql);
@@ -83,9 +83,11 @@ public class AdditionalServicesDB implements IAdditionalServicesDB {
 
             } else {
                 // Insert
-                sql = "INSERT INTO #TABLE# (Id, Service) VALUES (#V1#, '#V2#')";
+//                sql = "INSERT INTO #TABLE# (Id, Service) VALUES (#V1#, '#V2#')";
+                sql = "INSERT INTO #TABLE# (Service) VALUES ('#V2#')";
+
                 sql = sql.replace("#TABLE#", ADDITIONAL_SERVICES_TABLE);
-                sql = sql.replace("#V1#", String.valueOf(additionalService.getNumber()));
+                //sql = sql.replace("#V1#", String.valueOf(additionalService.getNumber()));
                 sql = sql.replace("#V2#", additionalService.getService());
 
                 dataBase.execute(sql);
