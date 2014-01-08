@@ -4,8 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 import reservation.databaseServices.DBServicesFactory;
 import reservation.databaseServices.IDBServicesFactory;
-import reservation.databaseServices.IGuestsDB;
-import reservation.databaseServices.TestGuestsDB;
+import reservation.reservationComponent.AdditionalService;
+import reservation.reservationComponent.IReservationServices;
+import reservation.reservationComponent.ReservationServices;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -19,24 +20,31 @@ public class GuestServicesForReservationTest {
     private IDBServicesFactory servicesFactory;
 
     @Before
-    public void setup(){
-        servicesFactory = new DBServicesFactory(DBServicesFactory.TEST_ENVIRONMENT, null, null);
+    public void setup() {
+        //    servicesFactory = new DBServicesFactory(DBServicesFactory.TEST_ENVIRONMENT, null, null);
+        servicesFactory = new DBServicesFactory(DBServicesFactory.DATABASE_ENVIRONMENT, "org.sqlite.JDBC", "jdbc:sqlite:GuestsDBTest.db");
+
     }
 
     @Test
     public void testMarkGuestAsRegular() throws Exception {
 
-        int customerNumber = 1;
 
-        IGuestsDB guestsDB = servicesFactory.getGuestsDB();
-        IGuestServicesForReservation guestServicesForReservation = new GuestServicesForReservation(servicesFactory);
-        Guest guest = guestsDB.getGuestByNumber(customerNumber);
+        int customerNumber;
+
+        IGuestServices guestServices = new GuestServices(servicesFactory);
+        IReservationServices reservationServices = new ReservationServices(servicesFactory);
+
+        Guest guest = guestServices.createGuest("Max Mustermann", "hausbot@elbe.de");
+        customerNumber = guest.getNumber();
+        AdditionalService service = reservationServices.createAdditionalService("Abendbrot");
 
         assertFalse(guest.isRegularGuest());
 
-        guestServicesForReservation.markGuestAsRegular(customerNumber);
-        guest = guestsDB.getGuestByNumber(customerNumber);
 
+        IGuestServicesForReservation guestServicesForReservation = new GuestServicesForReservation(servicesFactory);
+        guestServicesForReservation.markGuestAsRegular(customerNumber);
+        guest = guestServices.getGuestByNumber(customerNumber);
         assertTrue(guest.isRegularGuest());
     }
 }

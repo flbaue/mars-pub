@@ -21,7 +21,9 @@ public class GuestServicesTest {
 
     @Before
     public void setup(){
-        servicesFactory = new DBServicesFactory(DBServicesFactory.TEST_ENVIRONMENT,null,null);
+       // servicesFactory = new DBServicesFactory(DBServicesFactory.TEST_ENVIRONMENT,null,null);
+        servicesFactory = new DBServicesFactory(DBServicesFactory.DATABASE_ENVIRONMENT, "org.sqlite.JDBC", "jdbc:sqlite:GuestsDBTest.db");
+
     }
 
     @Test

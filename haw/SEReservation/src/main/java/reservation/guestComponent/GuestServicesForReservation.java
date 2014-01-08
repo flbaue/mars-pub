@@ -18,6 +18,7 @@ public class GuestServicesForReservation implements IGuestServicesForReservation
     public void markGuestAsRegular(int number) {
 
         Guest guest = guestDB.getGuestByNumber(number);
+
         guest.setRegularGuest(true);
         guestDB.saveGuest(guest);
     }
