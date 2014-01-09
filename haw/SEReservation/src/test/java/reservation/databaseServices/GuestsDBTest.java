@@ -4,6 +4,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import reservation.guestComponent.EMailType;
 import reservation.guestComponent.Guest;
+import reservation.guestComponent.IGuestsDB;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class GuestsDBTest {
     public static void setUp() throws Exception {
         servicesFactory = new DBServicesFactory(DBServicesFactory.DATABASE_ENVIRONMENT, "org.sqlite.JDBC", "jdbc:sqlite:GuestsDBTest.db");
         guestsDB = servicesFactory.getGuestsDB();
-        Guest guest = new Guest(guestsDB.getUniqueNumber(), "Eric Cartman", new EMailType("thecoon@southpark.de"));
+        Guest guest = new Guest("Eric Cartman", new EMailType("thecoon@southpark.de"));
         guestsDB.saveGuest(guest);
     }
 
@@ -57,7 +58,7 @@ public class GuestsDBTest {
 
     @Test
     public void testSaveGuest() throws Exception {
-        Guest guest = new Guest(guestsDB.getUniqueNumber(), "Bob Bobbsen", new EMailType("aa@bb.cc"));
+        Guest guest = new Guest("Bob Bobbsen", new EMailType("aa@bb.cc"));
         guestsDB.saveGuest(guest);
     }
 }

@@ -1,8 +1,6 @@
 package reservation.reservationComponent;
 
-import reservation.databaseServices.IAdditionalServicesDB;
 import reservation.databaseServices.IDBServicesFactory;
-import reservation.databaseServices.IReservationsDB;
 import reservation.guestComponent.GuestServicesForReservation;
 import reservation.guestComponent.IGuestServicesForReservation;
 
@@ -28,7 +26,7 @@ public class ReservationServices implements IReservationServices {
 
     @Override
     public AdditionalService createAdditionalService(String service) {
-        AdditionalService additionalService = new AdditionalService(additionalServicesDB.getUniqueNumber(), service);
+        AdditionalService additionalService = new AdditionalService(service);
         additionalServicesDB.saveAdditionalService(additionalService);
         return additionalService;
     }
@@ -41,7 +39,7 @@ public class ReservationServices implements IReservationServices {
             guestServicesForReservation.markGuestAsRegular(guestNumber);
         }
 
-        Reservation reservation = new Reservation(reservationDB.getUniqueNumber(), guestNumber, roomNumber);
+        Reservation reservation = new Reservation(guestNumber, roomNumber);
         reservationDB.saveReservation(reservation);
         return reservation;
     }

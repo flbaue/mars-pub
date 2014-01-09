@@ -1,6 +1,6 @@
-package reservation.databaseServices;
+package reservation.reservationComponent;
 
-import reservation.reservationComponent.Reservation;
+import reservation.databaseServices.DataBase;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -63,20 +63,20 @@ public class ReservationsDB implements IReservationsDB {
 
     @Override
     public synchronized void saveReservation(Reservation reservation) {
-        String sql = "SELECT * FROM #TABLE# WHERE Id = #V1#;";
-        sql = sql.replace("#TABLE#", RESERVATIONS_TABLE);
-        sql = sql.replace("#V1#", String.valueOf(reservation.getNumber()));
+//        String sql = "SELECT * FROM #TABLE# WHERE Id = #V1#;";
+//        sql = sql.replace("#TABLE#", RESERVATIONS_TABLE);
+//        sql = sql.replace("#V1#", String.valueOf(reservation.getNumber()));
 
         try {
-            dataBase.connect();
+//            dataBase.connect();
+//
+//            ResultSet rs = dataBase.executeQuery(sql);
+//            boolean results = rs.next();
+//            dataBase.close();
 
-            ResultSet rs = dataBase.executeQuery(sql);
-            boolean results = rs.next();
-            dataBase.close();
-
-            if (results) {
+            if (reservation.getNumber() != -1) {
                 // Update
-                sql = "UPDATE #TABLE# SET Guest = #V1#, Room = #V2# WHERE Id = #V3#";
+                String sql = "UPDATE #TABLE# SET Guest = #V1#, Room = #V2# WHERE Id = #V3#";
                 sql = sql.replace("#TABLE#", RESERVATIONS_TABLE);
                 sql = sql.replace("#V1#", String.valueOf(reservation.getGuestNumber()));
                 sql = sql.replace("#V2#", String.valueOf(reservation.getRoomNumber()));
@@ -88,22 +88,20 @@ public class ReservationsDB implements IReservationsDB {
 
 
                 updateAdditionalServices(reservation);
-                //TODO update additional services
-
             } else {
                 // Insert
-                sql = "INSERT INTO #TABLE# (Guest, Room) VALUES (#V2#, #V3#)";
+                String sql = "INSERT INTO #TABLE# (Guest, Room) VALUES (#V2#, #V3#)";
                 sql = sql.replace("#TABLE#", RESERVATIONS_TABLE);
                // sql = sql.replace("#V1#", String.valueOf(reservation.getNumber()));
                 sql = sql.replace("#V2#", String.valueOf(reservation.getGuestNumber()));
                 sql = sql.replace("#V3#", String.valueOf(reservation.getRoomNumber()));
 
                 dataBase.connect();
-                dataBase.execute(sql);
+                ResultSet rs = dataBase.prepareStmtAndExecute(sql);
+                reservation.setNumber(rs.getInt(1));
                 dataBase.close();
 
                 saveAdditionalServices(reservation);
-                //TODO save additional services
             }
 
         } catch (SQLException ex) {
@@ -146,7 +144,7 @@ public class ReservationsDB implements IReservationsDB {
                 //wenn es eine serviceID gibt die zu dieser reservierung nicht
                 //eingetragen ist dann create diesen eintrag in der DB
                 if (!(reservationToServiceDB.contains(serviceID))) {
-                    int uniqueID = dataBase.getUniqueID(ADDITIONAL_SERVICES_TABLE);
+//                    int uniqueID = dataBase.getUniqueID(ADDITIONAL_SERVICES_TABLE);
 
                     dataBase.connect();
                     sql = "INSERT INTO #TABLE# (Reservation,Service) Values(#V2#,#V3#)";
@@ -204,7 +202,8 @@ public class ReservationsDB implements IReservationsDB {
                 int guestNumber = rs.getInt("Guest");
                 int roomNumber = rs.getInt("Room");
 
-                reservation = new Reservation(id, guestNumber, roomNumber);
+                reservation = new Reservation(guestNumber, roomNumber);
+                reservation.setNumber(id);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -235,7 +234,8 @@ public class ReservationsDB implements IReservationsDB {
                 int guestNumber = rs.getInt("Guest");
                 int roomNumber = rs.getInt("Room");
 
-                Reservation reservation = new Reservation(id, guestNumber, roomNumber);
+                Reservation reservation = new Reservation(guestNumber, roomNumber);
+                reservation.setNumber(id);
                 reservations.add(reservation);
             }
         } catch (SQLException ex) {
@@ -267,7 +267,8 @@ public class ReservationsDB implements IReservationsDB {
                 int guestNumber = rs.getInt("Guest");
                 int roomNumber = rs.getInt("Room");
 
-                Reservation reservation = new Reservation(id, guestNumber, roomNumber);
+                Reservation reservation = new Reservation(guestNumber, roomNumber);
+                reservation.setNumber(id);
                 reservations.add(reservation);
             }
         } catch (SQLException ex) {

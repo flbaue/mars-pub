@@ -6,12 +6,18 @@ package reservation.reservationComponent;
  */
 public class AdditionalService {
 
-    private final int number;
+    private int number;
     private String service;
 
-    public AdditionalService(int number, String service) {
-        this.number = number;
+    public AdditionalService(String service) {
+        this.number = -1;
         this.service = service;
+    }
+
+    public void setNumber(int number){
+        if(this.number == -1) {
+            this.number = number;
+        }
     }
 
     public int getNumber() {

@@ -1,6 +1,4 @@
-package reservation.databaseServices;
-
-import reservation.reservationComponent.Reservation;
+package reservation.reservationComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,15 +13,15 @@ public class TestReservationsDB implements IReservationsDB {
 
     public TestReservationsDB() {
         reservations = new ArrayList<>();
-        reservations.add(new Reservation(getUniqueNumber(), 1, 101));
-        reservations.add(new Reservation(getUniqueNumber(), 2, 102));
-        reservations.add(new Reservation(getUniqueNumber(), 3, 103));
-        reservations.add(new Reservation(getUniqueNumber(), 4, 104));
-        reservations.add(new Reservation(getUniqueNumber(), 5, 105));
-        reservations.add(new Reservation(getUniqueNumber(), 1, 110));
-        reservations.add(new Reservation(getUniqueNumber(), 1, 110));
-        reservations.add(new Reservation(getUniqueNumber(), 1, 110));
-        reservations.add(new Reservation(getUniqueNumber(), 1, 110));
+//        reservations.add(new Reservation(getUniqueNumber(), 1, 101));
+//        reservations.add(new Reservation(getUniqueNumber(), 2, 102));
+//        reservations.add(new Reservation(getUniqueNumber(), 3, 103));
+//        reservations.add(new Reservation(getUniqueNumber(), 4, 104));
+//        reservations.add(new Reservation(getUniqueNumber(), 5, 105));
+//        reservations.add(new Reservation(getUniqueNumber(), 1, 110));
+//        reservations.add(new Reservation(getUniqueNumber(), 1, 110));
+//        reservations.add(new Reservation(getUniqueNumber(), 1, 110));
+//        reservations.add(new Reservation(getUniqueNumber(), 1, 110));
     }
 
     @Override

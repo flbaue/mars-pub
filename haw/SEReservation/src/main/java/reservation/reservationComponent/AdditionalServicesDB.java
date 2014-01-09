@@ -1,6 +1,6 @@
-package reservation.databaseServices;
+package reservation.reservationComponent;
 
-import reservation.reservationComponent.AdditionalService;
+import reservation.databaseServices.DataBase;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -63,34 +63,39 @@ public class AdditionalServicesDB implements IAdditionalServicesDB {
 
     @Override
     public synchronized void saveAdditionalService(AdditionalService additionalService) {
-        String sql = "SELECT * FROM #TABLE# WHERE Id = #V1#;";
-        sql = sql.replace("#TABLE#", ADDITIONAL_SERVICES_TABLE);
-        sql = sql.replace("#V1#", String.valueOf(additionalService.getNumber()));
+//        String sql = "SELECT * FROM #TABLE# WHERE Id = #V1#;";
+//        sql = sql.replace("#TABLE#", ADDITIONAL_SERVICES_TABLE);
+//        sql = sql.replace("#V1#", String.valueOf(additionalService.getNumber()));
 
         try {
-            dataBase.connect();
+//            dataBase.connect();
+//
+//            ResultSet rs = dataBase.executeQuery(sql);
 
-            ResultSet rs = dataBase.executeQuery(sql);
-
-            if (rs.next()) {
+            if (additionalService.getNumber() != -1) {
                 // Update
-                sql = "UPDATE #TABLE# SET Service = '#V1#' WHERE Id = #V2#";
+                String sql = "UPDATE #TABLE# SET Service = '#V1#' WHERE Id = #V2#";
                 sql = sql.replace("#TABLE#", ADDITIONAL_SERVICES_TABLE);
                 sql = sql.replace("#V1#", additionalService.getService());
                 sql = sql.replace("#V2#", String.valueOf(additionalService.getNumber()));
 
+                dataBase.connect();
                 dataBase.execute(sql);
+                dataBase.close();
 
             } else {
                 // Insert
 //                sql = "INSERT INTO #TABLE# (Id, Service) VALUES (#V1#, '#V2#')";
-                sql = "INSERT INTO #TABLE# (Service) VALUES ('#V2#')";
+                String sql = "INSERT INTO #TABLE# (Service) VALUES ('#V2#')";
 
                 sql = sql.replace("#TABLE#", ADDITIONAL_SERVICES_TABLE);
                 //sql = sql.replace("#V1#", String.valueOf(additionalService.getNumber()));
                 sql = sql.replace("#V2#", additionalService.getService());
 
-                dataBase.execute(sql);
+                dataBase.connect();
+                ResultSet rs = dataBase.prepareStmtAndExecute(sql);
+                additionalService.setNumber(rs.getInt(1));
+                dataBase.close();
             }
 
         } catch (SQLException ex) {
@@ -117,7 +122,8 @@ public class AdditionalServicesDB implements IAdditionalServicesDB {
                 int id = rs.getInt("Id");
                 String service = rs.getString("Service");
 
-                additionalService = new AdditionalService(id, service);
+                additionalService = new AdditionalService(service);
+                additionalService.setNumber(id);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -145,7 +151,8 @@ public class AdditionalServicesDB implements IAdditionalServicesDB {
             while (rs.next()) {
                 int idDB = rs.getInt("Id");
                 String serviceDB = rs.getString("Service");
-                AdditionalService additionalService = new AdditionalService(idDB, serviceDB);
+                AdditionalService additionalService = new AdditionalService(serviceDB);
+                additionalService.setNumber(idDB);
                 additionalServices.add(additionalService);
             }
         } catch (SQLException ex) {

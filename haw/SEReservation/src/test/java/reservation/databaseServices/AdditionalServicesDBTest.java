@@ -3,6 +3,7 @@ package reservation.databaseServices;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import reservation.reservationComponent.AdditionalService;
+import reservation.reservationComponent.IAdditionalServicesDB;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class AdditionalServicesDBTest {
     public static void setUp() throws Exception {
         servicesFactory = new DBServicesFactory(DBServicesFactory.DATABASE_ENVIRONMENT, "org.sqlite.JDBC", "jdbc:sqlite:AdditionalServicesDBTest.db");
         additionalServicesDB = servicesFactory.getAdditionalServicesDB();
-        AdditionalService service1 = new AdditionalService(additionalServicesDB.getUniqueNumber(), "WLAN");
+        AdditionalService service1 = new AdditionalService("WLAN");
         additionalServicesDB.saveAdditionalService(service1);
     }
 
@@ -35,7 +36,7 @@ public class AdditionalServicesDBTest {
 
     @Test
     public void testSaveAdditionalService() throws Exception {
-        AdditionalService service = new AdditionalService(additionalServicesDB.getUniqueNumber(),"Schläge");
+        AdditionalService service = new AdditionalService("Schläge");
         additionalServicesDB.saveAdditionalService(service);
         additionalServicesDB.getAdditionalServicesByText("Schläge");
     }

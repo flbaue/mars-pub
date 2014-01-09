@@ -91,6 +91,20 @@ public class DataBase {
         return rs;
     }
 
+    public ResultSet prepareStmtAndExecute(String query) {
+        ResultSet rs = null;
+        try {
+            PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            stmt.executeUpdate();
+
+            rs = stmt.getGeneratedKeys();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return rs;
+    }
+
     public void execute(String query) {
         try {
             Statement stmt = connection.createStatement();

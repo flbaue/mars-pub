@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import reservation.databaseServices.DBServicesFactory;
 import reservation.databaseServices.IDBServicesFactory;
-import reservation.databaseServices.IGuestsDB;
-import reservation.databaseServices.TestGuestsDB;
 
 import java.util.List;
 
@@ -39,8 +37,10 @@ public class GuestServicesTest {
 
     @Test
     public void testSearchForGuest() throws Exception {
-        IGuestsDB guestsDB = new TestGuestsDB();
+        IGuestsDB guestsDB = servicesFactory.getGuestsDB();
         IGuestServices guestServices = new GuestServices(servicesFactory);
+        guestsDB.saveGuest(new Guest("Kyle Broflovski",new EMailType("abc@abc.de")));
+
 
         List<Guest> guests = guestServices.searchForGuest("Kyle Broflovski");
 

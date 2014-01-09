@@ -1,7 +1,6 @@
 package reservation.guestComponent;
 
 import reservation.databaseServices.IDBServicesFactory;
-import reservation.databaseServices.IGuestsDB;
 
 /**
  * Created by Florian Bauer on 04.01.14.

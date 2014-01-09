@@ -6,16 +6,22 @@ package reservation.guestComponent;
  */
 public class Guest {
 
-    private final int number;
+    private int number;
     private String name;
     private EMailType email;
     private boolean regularGuest;
 
-    public Guest(int number, String name, EMailType email) {
-        this.number = number;
+    public Guest(String name, EMailType email) {
+        this.number = -1;
         this.name = name;
         this.email = email;
         regularGuest = false;
+    }
+
+    public void setNumber(int number){
+        if(this.number == -1) {
+            this.number = number;
+        }
     }
 
     public int getNumber() {

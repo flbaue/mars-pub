@@ -1,4 +1,4 @@
-package reservation.databaseServices;
+package reservation.reservationComponent;
 
 import reservation.reservationComponent.AdditionalService;
 

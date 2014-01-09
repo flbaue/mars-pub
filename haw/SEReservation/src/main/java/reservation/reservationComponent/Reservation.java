@@ -9,16 +9,22 @@ import java.util.List;
  */
 public class Reservation {
 
-    private final int number;
-    private final int guestNumber;
+    private int number;
+    private int guestNumber;
     private int roomNumber;
     private List<Integer> additionalServices;
 
-    public Reservation(int number, int guestNumber, int roomNumber) {
-        this.number = number;
+    public Reservation(int guestNumber, int roomNumber) {
+        this.number = -1;
         this.guestNumber = guestNumber;
         this.roomNumber = roomNumber;
         this.additionalServices = new ArrayList<>();
+    }
+
+    public void setNumber(int number) {
+        if(this.number == -1) {
+            this.number = number;
+        }
     }
 
     public int getNumber() {

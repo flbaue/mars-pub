@@ -1,4 +1,4 @@
-package reservation.databaseServices;
+package reservation.guestComponent;
 
 import reservation.guestComponent.Guest;
 

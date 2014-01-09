@@ -1,6 +1,4 @@
-package reservation.databaseServices;
-
-import reservation.reservationComponent.AdditionalService;
+package reservation.reservationComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +13,10 @@ public class TestAdditionalServicesDB implements IAdditionalServicesDB {
 
     public TestAdditionalServicesDB() {
         additionalServices = new ArrayList<>();
-        additionalServices.add(new AdditionalService(getUniqueNumber(), "WLAN"));
-        additionalServices.add(new AdditionalService(getUniqueNumber(), "Sauna"));
-        additionalServices.add(new AdditionalService(getUniqueNumber(), "Vollpension"));
-        additionalServices.add(new AdditionalService(getUniqueNumber(), "MiniBar"));
+//        additionalServices.add(new AdditionalService(getUniqueNumber(), "WLAN"));
+//        additionalServices.add(new AdditionalService(getUniqueNumber(), "Sauna"));
+//        additionalServices.add(new AdditionalService(getUniqueNumber(), "Vollpension"));
+//        additionalServices.add(new AdditionalService(getUniqueNumber(), "MiniBar"));
     }
 
     @Override

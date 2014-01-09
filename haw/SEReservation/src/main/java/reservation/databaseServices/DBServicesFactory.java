@@ -1,5 +1,10 @@
 package reservation.databaseServices;
 
+import reservation.guestComponent.GuestsDB;
+import reservation.guestComponent.IGuestsDB;
+import reservation.guestComponent.TestGuestsDB;
+import reservation.reservationComponent.*;
+
 /**
  * Created by Florian Bauer on 05.01.14.
  * flbaue@posteo.de

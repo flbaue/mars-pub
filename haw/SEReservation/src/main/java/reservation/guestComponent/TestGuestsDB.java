@@ -1,7 +1,4 @@
-package reservation.databaseServices;
-
-import reservation.guestComponent.EMailType;
-import reservation.guestComponent.Guest;
+package reservation.guestComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +13,32 @@ public class TestGuestsDB implements IGuestsDB {
 
     public TestGuestsDB() {
         testGuests = new ArrayList<>();
-        testGuests.add(new Guest(1, "Eric Cartman", new EMailType("theCoon@southpark.de")));
-        testGuests.add(new Guest(2, "Kenny McCormick", new EMailType("surviver@southpark.de")));
-        testGuests.add(new Guest(3, "Kyle Broflovski", new EMailType("redAleart@southpark.de")));
-        testGuests.add(new Guest(4, "Stan Marsh", new EMailType("StanTheMan@southpark.de")));
-        testGuests.add(new Guest(5, "Randy Marsh", new EMailType("ohYeah@southpark.de")));
-        testGuests.add(new Guest(6, "Gerald Broflovski", new EMailType("BlingBling@southpark.de")));
+        Guest guest = new Guest("Eric Cartman", new EMailType("theCoon@southpark.de"));
+        guest.setNumber(1);
+        testGuests.add(guest);
+
+        guest = new Guest("Kenny McCormick", new EMailType("surviver@southpark.de"));
+        guest.setNumber(2);
+        testGuests.add(guest);
+
+
+        guest = new Guest("Kyle Broflovski", new EMailType("redAleart@southpark.de"));
+        guest.setNumber(3);
+        testGuests.add(guest);
+
+
+        guest = new Guest("Stan Marsh", new EMailType("StanTheMan@southpark.de"));
+        guest.setNumber(4);
+        testGuests.add(guest);
+
+
+        guest = new Guest("Randy Marsh", new EMailType("ohYeah@southpark.de"));
+        guest.setNumber(5);
+        testGuests.add(guest);
+
+        guest = new Guest("Gerald Broflovski", new EMailType("BlingBling@southpark.de"));
+        guest.setNumber(5);
+        testGuests.add(guest);
     }
 
     @Override

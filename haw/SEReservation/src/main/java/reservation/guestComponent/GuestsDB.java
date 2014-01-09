@@ -1,7 +1,6 @@
-package reservation.databaseServices;
+package reservation.guestComponent;
 
-import reservation.guestComponent.EMailType;
-import reservation.guestComponent.Guest;
+import reservation.databaseServices.DataBase;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -77,7 +76,8 @@ public class GuestsDB implements IGuestsDB {
                 String email = rs.getString("Email");
                 boolean regular = Boolean.parseBoolean(rs.getString("Regular"));
 
-                guest = new Guest(id, name, new EMailType(email));
+                guest = new Guest(name, new EMailType(email));
+                guest.setNumber(id);
                 guest.setRegularGuest(regular);
             }
         } catch (SQLException ex) {
@@ -107,7 +107,8 @@ public class GuestsDB implements IGuestsDB {
                 String emailDB = rs.getString("Email");
                 boolean regularDB = Boolean.parseBoolean(rs.getString("Regular"));
 
-                Guest guest = new Guest(idDB, nameDB, new EMailType(emailDB));
+                Guest guest = new Guest(nameDB, new EMailType(emailDB));
+                guest.setNumber(idDB);
                 guest.setRegularGuest(regularDB);
 
                 guests.add(guest);
@@ -139,7 +140,8 @@ public class GuestsDB implements IGuestsDB {
                 String emailDB = rs.getString("Email");
                 boolean regularDB = Boolean.parseBoolean(rs.getString("Regular"));
 
-                Guest guest = new Guest(idDB, nameDB, new EMailType(emailDB));
+                Guest guest = new Guest(nameDB, new EMailType(emailDB));
+                guest.setNumber(idDB);
                 guest.setRegularGuest(regularDB);
 
                 guests.add(guest);
@@ -156,37 +158,41 @@ public class GuestsDB implements IGuestsDB {
     @Override
     public synchronized void saveGuest(Guest guest) {
 
-        String sql = "SELECT * FROM #TABLE# WHERE Id = #V1#;";
-        sql = sql.replace("#TABLE#", GUEST_TABLE);
-        sql = sql.replace("#V1#", String.valueOf(guest.getNumber()));
+//        String sql = "SELECT * FROM #TABLE# WHERE Id = #V1#;";
+//        sql = sql.replace("#TABLE#", GUEST_TABLE);
+//        sql = sql.replace("#V1#", String.valueOf(guest.getNumber()));
 
 
         try {
-            dataBase.connect();
-            ResultSet rs = dataBase.executeQuery(sql);
+//            dataBase.connect();
+//            ResultSet rs = dataBase.executeQuery(sql);
 
-            if (rs.next()) {
+            if (guest.getNumber() != -1) {
                 // Update
-                sql = "UPDATE #TABLE# SET Name = '#V1#', Email = '#V2#', Regular = '#V3#' WHERE Id = #V4#";
+                String sql = "UPDATE #TABLE# SET Name = '#V1#', Email = '#V2#', Regular = '#V3#' WHERE Id = #V4#";
                 sql = sql.replace("#TABLE#", GUEST_TABLE);
                 sql = sql.replace("#V1#", guest.getName());
                 sql = sql.replace("#V2#", guest.getEmail().toString());
                 sql = sql.replace("#V3#", String.valueOf(guest.isRegularGuest()));
                 sql = sql.replace("#V4#", String.valueOf(guest.getNumber()));
 
+                dataBase.connect();
                 dataBase.execute(sql);
+                dataBase.close();
 
             } else {
                 // Insert
-                sql = "INSERT INTO #TABLE# (Id, Name, Email, Regular) VALUES (#V1#, '#V2#', '#V3#', '#V4#')";
+                String sql = "INSERT INTO #TABLE# (Name, Email, Regular) VALUES ('#V2#', '#V3#', '#V4#')";
 
                 sql = sql.replace("#TABLE#", GUEST_TABLE);
-                sql = sql.replace("#V1#", String.valueOf(guest.getNumber()));
                 sql = sql.replace("#V2#", guest.getName());
                 sql = sql.replace("#V3#", guest.getEmail().toString());
                 sql = sql.replace("#V4#", String.valueOf(guest.isRegularGuest()));
 
-                dataBase.execute(sql);
+                dataBase.connect();
+                ResultSet rs = dataBase.prepareStmtAndExecute(sql);
+                guest.setNumber(rs.getInt(1));
+                dataBase.close();
             }
 
         } catch (SQLException ex) {

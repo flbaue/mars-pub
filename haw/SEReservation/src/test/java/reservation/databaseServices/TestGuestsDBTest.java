@@ -3,6 +3,8 @@ package reservation.databaseServices;
 import org.junit.Test;
 import reservation.guestComponent.EMailType;
 import reservation.guestComponent.Guest;
+import reservation.guestComponent.IGuestsDB;
+import reservation.guestComponent.TestGuestsDB;
 
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class TestGuestsDBTest {
 
     @Test
     public void testSaveGuest() throws Exception {
-        Guest guest = new Guest(guestsDB.getUniqueNumber(), "Johnny Bravo", new EMailType("johnny@cartoon.com"));
+        Guest guest = new Guest("Johnny Bravo", new EMailType("johnny@cartoon.com"));
         guestsDB.saveGuest(guest);
         List<Guest> test = guestsDB.getGuestsByName("Johnny Bravo");
         assertSame(guest, test.get(0));
