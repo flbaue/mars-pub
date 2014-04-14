@@ -1,27 +1,47 @@
 package reservation;
 
-import reservation.databaseServices.DBServicesFactory;
-import reservation.databaseServices.IDBServicesFactory;
-import reservation.guestComponent.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.Resource;
+import reservation.guestComponent.Guest;
+import reservation.guestComponent.IGuestServices;
 import reservation.reservationComponent.AdditionalService;
 import reservation.reservationComponent.IReservationServices;
 import reservation.reservationComponent.Reservation;
-import reservation.reservationComponent.ReservationServices;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
- * Created by Florian Bauer on 04.01.14.
- * flbaue@posteo.de
+ * Created by Florian Bauer on 04.01.14. flbaue@posteo.de
  */
 public class ReservationApp {
 
     public static void main(String[] args) {
+        ReservationApp reservationApp = new ReservationApp();
+        reservationApp.run();
+    }
 
-        IDBServicesFactory idbServicesFactory = new DBServicesFactory(DBServicesFactory.DATABASE_ENVIRONMENT,"org.sqlite.JDBC","jdbc:sqlite:ReservationSystem.db");
+    public void run() {
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
 
-        IGuestServices guestServices = new GuestServices(idbServicesFactory);
-        IReservationServices reservationServices = new ReservationServices(idbServicesFactory);
+        IGuestServices guestServices = applicationContext.getBean("GuestServices", IGuestServices.class);
+        IReservationServices reservationServices = applicationContext.getBean("ReservationServices", IReservationServices.class);
+        Resource resource = applicationContext.getResource("testuser.txt");
+        String[] guestR = new String[2];
 
-        Guest guest = guestServices.createGuest("Max Mustermann", "hausbot@elbe.de");
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                guestR = line.split(";");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        Guest guest = guestServices.createGuest(guestR[0], guestR[1]);
         AdditionalService service = reservationServices.createAdditionalService("Abendbrot");
 
         System.out.println("Gast Nr: " + guest.getNumber() + " ist Stammgast: " + guest.isRegularGuest());

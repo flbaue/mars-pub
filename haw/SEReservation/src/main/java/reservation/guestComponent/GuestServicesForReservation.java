@@ -1,7 +1,5 @@
 package reservation.guestComponent;
 
-import reservation.databaseServices.IDBServicesFactory;
-
 /**
  * Created by Florian Bauer on 04.01.14.
  * flbaue@posteo.de
@@ -10,8 +8,8 @@ public class GuestServicesForReservation implements IGuestServicesForReservation
 
     private IGuestsDB guestDB;
 
-    public GuestServicesForReservation(IDBServicesFactory servicesFactory) {
-        this.guestDB = servicesFactory.getGuestsDB();
+    public GuestServicesForReservation(IGuestsDB guestDB) {
+        this.guestDB = guestDB;
     }
 
     public void markGuestAsRegular(int number) {

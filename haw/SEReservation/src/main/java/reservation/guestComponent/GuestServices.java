@@ -1,7 +1,5 @@
 package reservation.guestComponent;
 
-import reservation.databaseServices.IDBServicesFactory;
-
 import java.util.List;
 
 /**
@@ -10,24 +8,24 @@ import java.util.List;
  */
 public class GuestServices implements IGuestServices {
 
-    private IGuestsDB guestDB;
+    private IGuestsDB guestsDB;
 
-    public GuestServices(IDBServicesFactory servicesFactory) {
-        this.guestDB = servicesFactory.getGuestsDB();
+    public GuestServices(IGuestsDB guestsDB) {
+        this.guestsDB = guestsDB;
     }
 
     public Guest createGuest(String name, String eMail) {
         Guest guest = new Guest(name, new EMailType(eMail));
-        guestDB.saveGuest(guest);
+        guestsDB.saveGuest(guest);
         return guest;
     }
 
     public List<Guest> searchForGuest(String name) {
-        return guestDB.getGuestsByName(name);
+        return guestsDB.getGuestsByName(name);
     }
 
     @Override
     public Guest getGuestByNumber(int number) {
-        return guestDB.getGuestByNumber(number);
+        return guestsDB.getGuestByNumber(number);
     }
 }

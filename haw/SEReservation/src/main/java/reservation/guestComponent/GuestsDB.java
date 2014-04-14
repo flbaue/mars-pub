@@ -157,16 +157,7 @@ public class GuestsDB implements IGuestsDB {
 
     @Override
     public synchronized void saveGuest(Guest guest) {
-
-//        String sql = "SELECT * FROM #TABLE# WHERE Id = #V1#;";
-//        sql = sql.replace("#TABLE#", GUEST_TABLE);
-//        sql = sql.replace("#V1#", String.valueOf(guest.getNumber()));
-
-
         try {
-//            dataBase.connect();
-//            ResultSet rs = dataBase.executeQuery(sql);
-
             if (guest.getNumber() != -1) {
                 // Update
                 String sql = "UPDATE #TABLE# SET Name = '#V1#', Email = '#V2#', Regular = '#V3#' WHERE Id = #V4#";
@@ -183,7 +174,6 @@ public class GuestsDB implements IGuestsDB {
             } else {
                 // Insert
                 String sql = "INSERT INTO #TABLE# (Name, Email, Regular) VALUES ('#V2#', '#V3#', '#V4#')";
-
                 sql = sql.replace("#TABLE#", GUEST_TABLE);
                 sql = sql.replace("#V2#", guest.getName());
                 sql = sql.replace("#V3#", guest.getEmail().toString());

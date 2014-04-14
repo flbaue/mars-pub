@@ -1,7 +1,5 @@
 package reservation.reservationComponent;
 
-import reservation.databaseServices.IDBServicesFactory;
-import reservation.guestComponent.GuestServicesForReservation;
 import reservation.guestComponent.IGuestServicesForReservation;
 
 import java.util.List;
@@ -18,10 +16,10 @@ public class ReservationServices implements IReservationServices {
     private IAdditionalServicesDB additionalServicesDB;
     private IGuestServicesForReservation guestServicesForReservation;
 
-    public ReservationServices(IDBServicesFactory servicesFactory) {
-        this.reservationDB = servicesFactory.getReservationsDB();
-        this.additionalServicesDB = servicesFactory.getAdditionalServicesDB();
-        this.guestServicesForReservation = new GuestServicesForReservation(servicesFactory);
+    public ReservationServices(IReservationsDB reservationDB, IAdditionalServicesDB additionalServicesDB, IGuestServicesForReservation guestServicesForReservation) {
+        this.reservationDB = reservationDB;
+        this.additionalServicesDB = additionalServicesDB;
+        this.guestServicesForReservation = guestServicesForReservation;
     }
 
     @Override

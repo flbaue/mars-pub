@@ -1,0 +1,42 @@
+<!--
+  ~ Florian Bauer
+  ~ flbaue@posteo.de
+  ~ Copyright (c) 2014.
+  -->
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean name="GuestServices" class="reservation.guestComponent.GuestServices">
+        <constructor-arg type="reservation.guestComponent.IGuestsDB" ref="GuestsDB"/>
+    </bean>
+
+    <bean name="GuestServicesForReservation" class="reservation.guestComponent.GuestServicesForReservation">
+        <constructor-arg type="reservation.guestComponent.IGuestsDB" ref="GuestsDB"/>
+    </bean>
+
+    <bean name="GuestsDB" class="reservation.guestComponent.GuestsDB">
+        <constructor-arg type="reservation.databaseServices.DataBase" ref="dataBase"/>
+    </bean>
+
+    <bean name="ReservationServices" class="reservation.reservationComponent.ReservationServices">
+        <constructor-arg type="reservation.guestComponent.IGuestServicesForReservation"
+                         ref="GuestServicesForReservation"/>
+        <constructor-arg type="reservation.reservationComponent.IReservationsDB" ref="ReservationsDB"/>
+        <constructor-arg type="reservation.reservationComponent.IAdditionalServicesDB" ref="AdditionalServicesDB"/>
+    </bean>
+
+    <bean name="ReservationsDB" class="reservation.reservationComponent.ReservationsDB">
+        <constructor-arg type="reservation.databaseServices.DataBase" ref="dataBase"/>
+    </bean>
+
+    <bean name="AdditionalServicesDB" class="reservation.reservationComponent.AdditionalServicesDB">
+        <constructor-arg type="reservation.databaseServices.DataBase" ref="dataBase"/>
+    </bean>
+
+    <import resource="dbservices.xml"/>
+
+</beans>
