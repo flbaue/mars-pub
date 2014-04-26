@@ -37,6 +37,14 @@
         <constructor-arg type="reservation.databaseServices.DataBase" ref="dataBase"/>
     </bean>
 
+    <bean name="MessageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>messages</value>
+            </list>
+        </property>
+    </bean>
+
     <import resource="dbservices.xml"/>
 
 </beans>

@@ -1,6 +1,8 @@
 package reservation;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 import reservation.guestComponent.Guest;
@@ -12,6 +14,7 @@ import reservation.reservationComponent.Reservation;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Locale;
 
 /**
  * Created by Florian Bauer on 04.01.14. flbaue@posteo.de
@@ -28,6 +31,7 @@ public class ReservationApp {
 
         IGuestServices guestServices = applicationContext.getBean("GuestServices", IGuestServices.class);
         IReservationServices reservationServices = applicationContext.getBean("ReservationServices", IReservationServices.class);
+        MessageSource messageSource = applicationContext.getBean("MessageSource", MessageSource.class);
         Resource resource = applicationContext.getResource("testuser.txt");
         String[] guestR = new String[2];
 
@@ -56,5 +60,8 @@ public class ReservationApp {
         reservationServices.bookAdditionalService(reservation.getNumber(), service.getNumber());
 
         System.out.println("Gast Nr: " + guest.getNumber() + " ist Stammgast: " + guestServices.getGuestByNumber(guest.getNumber()).isRegularGuest());
+
+        System.out.println(messageSource.getMessage("welcome", new Object[]{"Spring"}, Locale.GERMAN));
+        System.out.println(messageSource.getMessage("welcome", new Object[]{"Spring"}, Locale.ENGLISH));
     }
 }
