@@ -1,9 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2014.
   ~ Florian Bauer, flbaue@posteo.de
   -->
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="flbaue.amando4.app">
 
@@ -32,6 +30,30 @@
         <activity
             android:name="flbaue.amando4.app.Settings"
             android:label="@string/title_activity_settings"
+            android:parentActivityName="flbaue.amando4.app.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="MainActivity" />
+        </activity>
+        <activity
+            android:name="flbaue.amando4.app.ShowMap"
+            android:label="@string/title_activity_show_map"
+            android:parentActivityName="flbaue.amando4.app.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="MainActivity" />
+        </activity>
+        <activity
+            android:name="flbaue.amando4.app.StartSimulation"
+            android:label="@string/title_activity_start_simulation"
+            android:parentActivityName="flbaue.amando4.app.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="MainActivity" />
+        </activity>
+        <activity
+            android:name="flbaue.amando4.app.SendPosition"
+            android:label="@string/title_activity_send_position"
             android:parentActivityName="flbaue.amando4.app.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
