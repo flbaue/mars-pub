@@ -40,4 +40,8 @@ public class MessageProcessor implements Runnable {
         }
         System.out.println("MessageProcessor exit");
     }
+
+    public void shutdown() {
+        Thread.currentThread().interrupt();
+    }
 }

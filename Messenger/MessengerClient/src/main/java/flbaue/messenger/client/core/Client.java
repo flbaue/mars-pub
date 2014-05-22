@@ -10,8 +10,11 @@ import flbaue.messenger.common.Message;
 import flbaue.messenger.common.MessageCommand;
 import flbaue.messenger.common.MessageListener;
 
-import java.io.File;
+import java.io.*;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -26,10 +29,9 @@ public class Client {
     private BlockingDeque<Message> sendQueue;
     private BlockingDeque<Message> receiveQueue;
     private Set<MessageListener> messageListeners;
-    private Thread messageProcessorThread;
-    private Thread receiverThread;
-    private Thread senderThread;
     private Receiver receiver;
+    private MessageProcessor messageProcessor;
+    private Sender sender;
 
     public Client(int port_incoming) {
         this.port_incoming = port_incoming;
@@ -41,16 +43,18 @@ public class Client {
     }
 
     private void initializeThreads() {
-        messageProcessorThread = new Thread(new MessageProcessor(messageListeners, receiveQueue));
+        messageProcessor = new MessageProcessor(messageListeners, receiveQueue);
+        Thread messageProcessorThread = new Thread(messageProcessor);
         messageProcessorThread.setName("messageProcessorThread");
         messageProcessorThread.start();
 
         receiver = new Receiver(receiveQueue, port_incoming);
-        receiverThread = new Thread(receiver);
+        Thread receiverThread = new Thread(receiver);
         receiverThread.setName("receiverThread");
         receiverThread.start();
 
-        senderThread = new Thread(new Sender(sendQueue, receiveQueue, server));
+        sender = new Sender(sendQueue, receiveQueue, server);
+        Thread senderThread = new Thread(sender);
         senderThread.setName("senderThread");
         senderThread.start();
     }
@@ -60,8 +64,33 @@ public class Client {
         sendQueue.add(message);
     }
 
-    public void sendFile(File file) {
-        throw new UnsupportedOperationException();
+    public void sendFile(File file) throws FileNotFoundException {
+
+        if (!file.isFile()) {
+            throw new FileNotFoundException(file + " does not exist or is not a file");
+        }
+
+        List<Byte> bytes = new ArrayList<>();
+
+        try (InputStream in = Files.newInputStream(file.toPath())) {
+            BufferedInputStream bin = new BufferedInputStream(in);
+            for (int c; (c = in.read()) != -1; ) {
+                bytes.add((byte) c);
+            }
+        } catch (IOException e) {
+            //TODO
+        }
+
+        byte[] b = new byte[bytes.size()];
+
+        for (int i = 0; i < bytes.size(); i++) {
+            b[i] = bytes.get(i);
+        }
+
+        Message message = new Message(MessageCommand.FILE, file.getName(), b,
+                new flbaue.messenger.common.Client(null, port_incoming));
+        sendQueue.add(message);
+
     }
 
     public void connectToServer(String host, int port, String secretToken) {
@@ -77,9 +106,9 @@ public class Client {
     }
 
     public void shutdown() {
-        messageProcessorThread.interrupt();
+        messageProcessor.shutdown();
         receiver.shutdown();
-        senderThread.interrupt();
+        sender.shutdown();
         System.out.println("Client exit");
     }
 }

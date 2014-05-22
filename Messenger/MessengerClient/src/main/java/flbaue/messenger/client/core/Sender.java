@@ -68,5 +68,9 @@ public class Sender implements Runnable {
         message.setCommand(MessageCommand.COULD_NOT_SEND);
         receiveQueue.add(message);
     }
+
+    public void shutdown() {
+        Thread.currentThread().interrupt();
+    }
 }
 

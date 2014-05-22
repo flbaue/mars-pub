@@ -1,0 +1,33 @@
+<!--
+  ~ Copyright (c) 2014.
+  ~ Florian Bauer, flbaue@posteo.de
+  -->
+
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:buttonStyle">@style/buttonStyle</item>
+
+    </style>
+
+    <style name="textStyle">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="textStyleHeadline">
+        <item name="android:textSize">24sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
+    <style name="textStyleButton" parent="@style/textStyle">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="buttonStyle" parent="android:Widget.Holo.Light.Button">
+        <item name="android:textAppearance">@style/textStyleButton</item>
+    </style>
+
+</resources>

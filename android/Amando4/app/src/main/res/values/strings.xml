@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2014.
+  ~ Florian Bauer, flbaue@posteo.de
+  -->
+
+<resources>
+
+    <!-- Global -->
+    <string name="app_name">Amando4</string>
+
+    <!-- Global Menu -->
+    <string name="action_settings">Settings</string>
+
+    <!-- Main Activity -->
+    <string name="main_txt_welcome">Sie haben folgende Optionen zur Verfügung:</string>
+    <string name="main_btn_send_position">Position senden</string>
+    <string name="main_btn_manage_geo_contacts">Geokontakte verwalten</string>
+    <string name="main_btn_show_map">Karte anzeigen</string>
+    <string name="main_btn_start_simulation">Simulation starten</string>
+    <string name="title_activity_manage_geo_contacts">ManageGeoContacts</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_settings">Settings</string>
+
+</resources>
