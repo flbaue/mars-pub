@@ -5,10 +5,12 @@
 
 package flbaue.amando4.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class ManageGeoContacts extends ActionBarActivity {
@@ -34,8 +36,13 @@ public class ManageGeoContacts extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, Settings.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onClickEditTest(View view) {
+        startActivity(new Intent(this, EditGeoContact.class));
     }
 }

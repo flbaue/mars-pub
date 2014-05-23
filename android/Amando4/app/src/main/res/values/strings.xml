@@ -6,9 +6,14 @@
 
     <!-- Global -->
     <string name="app_name">Amando4</string>
+    <string name="txt_name">Name</string>
+    <string name="txt_phone">Telefon</string>
+    <string name="hello_world">Hello world!</string>
 
     <!-- Global Menu -->
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="action_help">Hilfe</string>
+    <string name="action_exit">Beenden</string>
 
     <!-- Main Activity -->
     <string name="main_txt_welcome">Sie haben folgende Optionen zur Verfügung:</string>
@@ -16,11 +21,14 @@
     <string name="main_btn_manage_geo_contacts">Geokontakte verwalten</string>
     <string name="main_btn_show_map">Karte anzeigen</string>
     <string name="main_btn_start_simulation">Simulation starten</string>
+
+    <!-- Title -->
     <string name="title_activity_manage_geo_contacts">ManageGeoContacts</string>
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_show_map">ShowMap</string>
     <string name="title_activity_start_simulation">StartSimulation</string>
     <string name="title_activity_send_position">SendPosition</string>
+    <string name="title_activity_edit_geo_contact">EditGeoContact</string>
+    <string name="title_activity_help">Help</string>
 
 </resources>

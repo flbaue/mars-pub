@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2014.
+  ~ Florian Bauer, flbaue@posteo.de
+  -->
+
+<resources>
+
+    <color name="black">#000</color>
+    <color name="background">#FFF1FBE6</color>
+    <color name="text_color">#206020</color>
+
+</resources>

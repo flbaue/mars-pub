@@ -13,6 +13,7 @@
 
     <style name="textStyle">
         <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/text_color</item>
     </style>
 
     <style name="textStyleHeadline">
@@ -20,6 +21,7 @@
         <item name="android:gravity">center</item>
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="textStyleButton" parent="@style/textStyle">

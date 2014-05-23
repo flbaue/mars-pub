@@ -59,6 +59,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="MainActivity" />
         </activity>
+        <activity
+            android:name="flbaue.amando4.app.EditGeoContact"
+            android:label="@string/title_activity_edit_geo_contact"
+            android:parentActivityName="flbaue.amando4.app.ManageGeoContacts">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ManageGeoContacts" />
+        </activity>
+        <activity
+            android:name="flbaue.amando4.app.Help"
+            android:label="@string/title_activity_help"
+            android:parentActivityName="flbaue.amando4.app.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="MainActivity" />
+        </activity>
     </application>
 
 </manifest>
