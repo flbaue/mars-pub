@@ -3,25 +3,28 @@
   ~ Florian Bauer, flbaue@posteo.de
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="flbaue.amando4.app.ManageGeoContacts">
 
-    <TextView
+    <Spinner
+        android:id="@+id/geo_contacts_sp_order"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:entries="@array/geo_contacts_orders" />
 
-    <Button
+    <fragment
+        android:id="@+id/geo_contacts_fragment"
+        android:name="flbaue.amando4.app.GeoContactsFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="onClickEditTest"
-        android:text="Edit test" />
+        android:layout_height="match_parent"
+        tools:layout="@layout/fragment_geocontacts" />
 
-</RelativeLayout>
+</LinearLayout>

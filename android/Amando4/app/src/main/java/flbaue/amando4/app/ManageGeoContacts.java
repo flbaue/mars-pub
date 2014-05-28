@@ -11,14 +11,44 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Spinner;
+
+import java.util.Arrays;
 
 
-public class ManageGeoContacts extends ActionBarActivity {
+public class ManageGeoContacts extends ActionBarActivity implements GeoContactsFragment.OnFragmentInteractionListener {
+
+    private AdapterView.OnItemSelectedListener mSpinnerItemSelectedListener = new AdapterView.OnItemSelectedListener() {
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            GeoContactsFragment fragment = (GeoContactsFragment) getSupportFragmentManager().findFragmentById(R.id.geo_contacts_fragment);
+            switch (position) {
+                case 0:
+                    fragment.initializeNames();
+                    fragment.mAdapter.notifyDataSetChanged();
+                    break;
+                case 1:
+                    Arrays.sort(fragment.NAMES);
+                    fragment.mAdapter.notifyDataSetChanged();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_geo_contacts);
+        ((Spinner) findViewById(R.id.geo_contacts_sp_order)).setOnItemSelectedListener(mSpinnerItemSelectedListener);
     }
 
 
@@ -42,7 +72,8 @@ public class ManageGeoContacts extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onClickEditTest(View view) {
-        startActivity(new Intent(this, EditGeoContact.class));
+    @Override
+    public void onFragmentInteraction(String id) {
+        System.out.println(id);
     }
 }

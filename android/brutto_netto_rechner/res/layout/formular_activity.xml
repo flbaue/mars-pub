@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_anweisung" />
+
+    <EditText
+        android:id="@+id/edt_betrag"
+        android:hint="@string/txt_edt_betrag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal" />
+
+    <RadioGroup
+        android:id="@+id/rg_art"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/rb_art_netto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/txt_netto" />
+
+        <RadioButton
+            android:id="@+id/rb_art_brutto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_brutto" />
+    </RadioGroup>
+
+    <Spinner
+        android:id="@+id/sp_umsatzsteuer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawSelectorOnTop="true"
+        android:entries="@array/ust_anzeige"
+        android:entryValues="@array/ust_werte" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClickBerechnen"
+        android:text="@string/txt_berechnen" />
+</LinearLayout>
+
