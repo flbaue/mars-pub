@@ -13,3 +13,4 @@ if __name__ == "__main__":
               "pwd": "secret" \
               }
 print buildConnectionString(myParams)
+print buildConnectionString.__doc__
