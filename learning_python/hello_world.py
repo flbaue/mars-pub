@@ -2,7 +2,12 @@
 
 print("hello world")
 
-def x = true
+x = True
 
-if(x)
+if(x):
   print("x = true")
+
+colors = ['red', 'green', 'blue', 'yellow']
+
+for i, color in enumerate(colors):
+  print(i, ' --> ', color)
