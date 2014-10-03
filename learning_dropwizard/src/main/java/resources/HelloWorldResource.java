@@ -8,6 +8,9 @@ package resources;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.base.Optional;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 import core.Saying;
 
 import javax.ws.rs.GET;
@@ -22,6 +25,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @Path("/hello-world")
 @Produces(MediaType.APPLICATION_JSON)
+@Api(value = "/hello-world", description = "Says hello!")
 public class HelloWorldResource {
     private final String template;
     private final String defaultName;
@@ -35,7 +39,9 @@ public class HelloWorldResource {
 
     @GET
     @Timed
-    public Saying sayHello(@QueryParam("name") Optional<String> name) {
+    @ApiOperation(value = "Says hello to NAME", notes = "More notes about this method", response = Saying.class)
+    public Saying sayHello(@ApiParam(value = "your NAME", required = false) @QueryParam("name")
+                               Optional<String> name) {
         final String value = String.format(template, name.or(defaultName));
         return new Saying(counter.incrementAndGet(), value);
     }
