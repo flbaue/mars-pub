@@ -79,4 +79,8 @@ public class Receiver implements Runnable {
     public void shutdown() {
         shutdown = true;
     }
+
+    public void closeSocket() {
+        ServerUtils.closeServerSocketSafely(serverSocket);
+    }
 }

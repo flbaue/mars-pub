@@ -22,6 +22,9 @@ public class Server {
     private Receiver receiver;
     private Broadcaster broadcaster;
     private CommandProcessor commandProcessor;
+    private Thread commandProcessorThread;
+    private Thread broadcasterThread;
+    private Thread receiverThread;
 
     public Server() {
         receiverQueue = new LinkedBlockingDeque();
@@ -31,25 +34,56 @@ public class Server {
 
     public void start(int port, String password) {
         receiver = new Receiver(receiverQueue, port, clients);
-        Thread receiverThread = new Thread(receiver);
+        receiverThread = new Thread(receiver);
         receiverThread.setName("receiverThread");
         receiverThread.start();
 
         commandProcessor = new CommandProcessor(receiverQueue, broadcasterQueue, clients, password, this);
-        Thread commandProcessorThread = new Thread(commandProcessor);
+        commandProcessorThread = new Thread(commandProcessor);
         commandProcessorThread.setName("commandProcessorThread");
         commandProcessorThread.start();
 
         broadcaster = new Broadcaster(broadcasterQueue, clients);
-        Thread broadcasterThread = new Thread(broadcaster);
+        broadcasterThread = new Thread(broadcaster);
         broadcasterThread.setName("broadcasterThread");
         broadcasterThread.start();
     }
 
     public void shutdown() {
-        receiver.shutdown();
-        commandProcessor.shutdown();
-        broadcaster.shutdown();
+        while(isAlive()) {
+            if (clients.size() > 0) {
+                receiver.shutdown();
+                commandProcessor.shutdown();
+                broadcaster.shutdown();
+            } else {
+                receiverThread.interrupt();
+                receiver.closeSocket();
+                commandProcessorThread.interrupt();
+                broadcasterThread.interrupt();
+            }
+            System.out.println(status());
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public boolean isAlive(){
+        return receiverThread.isAlive() || commandProcessorThread.isAlive() || broadcasterThread.isAlive();
+    }
+
+    public String status(){
+        return receiverThread.getName() + " is alive:" + receiverThread.isAlive() + ", " +
+                "is interupted:" + receiverThread.isInterrupted() + "\n" +
+                commandProcessorThread.getName() + " is alive:" + commandProcessorThread.isAlive() + ", " +
+                "is interupted:" + commandProcessorThread.isInterrupted() + "\n" +
+                broadcasterThread.getName() + " is alive:" + broadcasterThread.isAlive() + ", " +
+                "is interupted:" + broadcasterThread.isInterrupted() + "\n" +
+                "active clients:" + clients.size() + "\n" +
+                "receiverQueue:" + receiverQueue.size() + "\n" +
+                "broadcasterQueue:" + broadcasterQueue.size();
     }
 
 }

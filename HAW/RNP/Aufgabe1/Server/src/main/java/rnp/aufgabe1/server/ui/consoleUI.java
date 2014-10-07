@@ -8,6 +8,8 @@ package rnp.aufgabe1.server.ui;
 
 import rnp.aufgabe1.server.core.Server;
 
+import java.util.Scanner;
+
 /**
  * Created by Florian Bauer on 06.10.14. flbaue@posteo.de
  */
@@ -25,31 +27,22 @@ public class consoleUI {
 
         System.out.println("Server Startup");
         System.out.println("Port: " + port);
-        System.out.println("Remote Shutdown Password:");
-
-        //TODO UI
-
-//        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
-//        String input;
-//        while (!(input = scanner.next()).equals("exit")) {
-//            switch (input) {
-//                case "start":
-//                    server.startServices();
-//                    break;
-//                case "stop":
-//                    server.shutdownServices();
-//                    break;
-//                case "restart":
-//                    server.restart();
-//                    break;
-//                default:
-//                    System.out.println("> Unknown command");
-//                    break;
-//            }
-//        }
-
+        System.out.println("Remote Shutdown Password:" + secretToken);
+        System.out.println("press 'q' to shutdown locally");
 
         Server server = new Server();
         server.start(port,secretToken);
+
+        System.out.println("Server is running");
+
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
+        String input;
+        while (!(scanner.next()).equals("q")) {
+            //nothing
+        }
+        System.out.println("Server is shutting down");
+        server.shutdown();
+        System.out.println("Goodbye");
+
     }
 }
