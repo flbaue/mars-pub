@@ -56,7 +56,7 @@ public class Broadcaster implements Runnable {
             writer.flush();
             writer.close();
         } catch (IOException e) {
-            // TODO logging
+            e.printStackTrace();
         } finally {
             ServerUtils.closeSocketSafely(clientSocket);
         }

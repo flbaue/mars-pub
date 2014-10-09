@@ -13,17 +13,17 @@ import java.util.Scanner;
 /**
  * Created by Florian Bauer on 06.10.14. flbaue@posteo.de
  */
-public class consoleUI {
+public class ConsoleUI {
 
     private int port;
     private String secretToken;
 
     public static void main(String[] args) {
-        new consoleUI().run(args);
+        new ConsoleUI().run(args);
     }
 
     private void run(String[] args) {
-
+        parseArgs(args);
 
         System.out.println("Server Startup");
         System.out.println("Port: " + port);
@@ -44,5 +44,16 @@ public class consoleUI {
         server.shutdown();
         System.out.println("Goodbye");
 
+    }
+
+    private void parseArgs(final String[] args) {
+        for (String arg : args) {
+            if (arg.startsWith("port=")) {
+                port = Integer.parseInt(arg.split("=")[1]);
+            }
+            if(arg.startsWith("secret=")) {
+                secretToken = arg.split("=")[1];
+            }
+        }
     }
 }
